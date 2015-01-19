@@ -10,7 +10,7 @@ class Country {
     static hasMany = [states:State]
 
     static mapping = {
-        states lazy:false, cache:true // 二次キャッシュ（read-writeキャッシュ）を有効にする
+        states lazy:true, cache:true // 二次キャッシュ（read-writeキャッシュ）を有効にする
         cache:true
     }
 

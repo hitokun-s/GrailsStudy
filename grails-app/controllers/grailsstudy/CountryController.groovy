@@ -14,12 +14,20 @@ class CountryController {
         // [1] COUNTRYからのSELECT
         // [2] COUNTRY_STATEからのSELECT
         // [3] STATEからのSELECT 1
-        // [4] STATEからのSELECT 2
+        // [4] STATEからのSELECT 2・・・？
 
         // Country -> states cache:true にしていると、
         // 2回目以降の問い合わせでは、[2]を行わない。
-        // ただ、States cache:true にしても、Country cache:true にしても、[1][3][4]は必ず実行される！
-        // 何か間違っている・・・？
+        // ただ、States cache:true にしても、Country cache:true にしても、
+        // lazy:falseだと、[1][3][4]は必ず実行される！
+        // lazy:trueにしても、[1]は必ず実行される。
+        // 何か間違っている?
+
+        // related issue:
+        // http://stackoverflow.com/questions/16627147/grails-query-cache-is-not-used
+
+        // see also:
+        // http://stackoverflow.com/questions/9344907/hibernate-2nd-level-cache-in-a-grails-app
     }
 
     def getStates(){

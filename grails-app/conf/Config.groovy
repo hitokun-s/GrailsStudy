@@ -109,6 +109,7 @@ log4j = {
 
 //    trace 'org.hibernate.type' // logging about binding parameter to sql statement
     debug 'org.hibernate.SQL' // logging SQL
+    trace 'org.hibernate.cache'
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
