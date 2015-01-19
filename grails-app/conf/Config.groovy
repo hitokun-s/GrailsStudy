@@ -107,6 +107,9 @@ log4j = {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
 
+//    trace 'org.hibernate.type' // logging about binding parameter to sql statement
+    debug 'org.hibernate.SQL' // logging SQL
+
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts

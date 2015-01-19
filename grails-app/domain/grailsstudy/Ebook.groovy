@@ -2,9 +2,11 @@ package grailsstudy
 
 import org.grails.databinding.BindingFormat
 
+/**
+ * 本プロジェクトにおいては、エラーテストのためにBootStrapでEbookテーブルを削除している
+ * よって、他の目的で、Ebookクラスを正常に使うことはできない
+ */
 class Ebook {
-
-    String author = ""
     String title = ""
     Integer price = 0
 
@@ -12,5 +14,6 @@ class Ebook {
     Date publishDate = new Date()
 
     static constraints = {
+        price min: 1000
     }
 }
