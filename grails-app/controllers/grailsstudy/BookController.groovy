@@ -161,7 +161,7 @@ class BookController {
             authors.each{
                 book.addToAuthors(BookAuthor.findOrCreateWhere(author:it,book:book))
                 // Note:
-                // Let's me say, Book 1 has Author 1 via BookAuthor 1.
+                // Let's say, Book 1 has Author 1 via BookAuthor 1.
                 // if you just want to replace Author 1 with Author 2,
                 // a new BookAuthor 2 will be created, and BookAuthor 1 will be deleted.
                 // Don't expect that BookAuthor 1 will be updated.
