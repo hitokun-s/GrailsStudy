@@ -15,13 +15,7 @@ class BookService {
 
     // hasmany のリレーション（BookとBookAuthorとAuuthor）のsaveの挙動チェック用
     def save(Book book){
-        // experiment for hasmany relation
-        def author1 = new Author(name:"test_author1").save()
-        def author2 = new Author(name:"test_author2").save()
-        // authorをsave()しておかないと、BookAuthorのauthor_idがnullになってエラーになる
 
-        book.addToAuthors(new BookAuthor(author:author1))
-        book.addToAuthors(new BookAuthor(author:author2))
         book.save() // これでBookAuthorも自動的にsave()されて、BOOK_AUTHORテーブルに保存される
 
         // このアクションによって、AUTHOR, BOOK_AUTHOR, BOOK に対して、

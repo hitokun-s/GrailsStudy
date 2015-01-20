@@ -21,7 +21,7 @@ class Book {
         // With this option, grails execute 2 query as below:
         // [sql1] fetching target Book instance from BOOK table
         // [sql2] fetching related BookAuthor instances from BOOK_AUTHOR table
-        authors lazy:false
+        authors lazy:false, cascade: "all-delete-orphan"
     }
 
 }

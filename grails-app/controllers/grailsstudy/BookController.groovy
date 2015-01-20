@@ -147,10 +147,43 @@ class BookController {
 
 
     def save(){
-        def book = new Book()
+        def book
+        // authorIds must be like [[id:1], [id:2], ...]
+        def authors = Author.getAll(request.JSON.authorIds)
+
+        // Attention!!!
+        // if getAll() cannot find all Authors correspinding authorIds,
+        // no exception will be thrown here.
+
+        if(params.id){
+            book = Book.get(params.id)
+            book.authors.clear()
+            authors.each{
+                book.addToAuthors(BookAuthor.findOrCreateWhere(author:it,book:book))
+                // Note:
+                // Let's me say, Book 1 has Author 1 via BookAuthor 1.
+                // if you just want to replace Author 1 with Author 2,
+                // a new BookAuthor 2 will be created, and BookAuthor 1 will be deleted.
+                // Don't expect that BookAuthor 1 will be updated.
+            }
+        }else{
+            book = new Book()
+            authors.each{
+//                book.addToAuthors(new BookAuthor(author:it,book:book)) // don't have to add [book:book]
+                book.addToAuthors(new BookAuthor(author:it))
+            }
+        }
         bindData(book, request.JSON)
         bookService.save(book)
         render true
+    }
+
+    def saveAuthor(){
+        def author = new Author()
+        bindData(author, request.JSON)
+        author.save()
+        def res = [result:true, data:author]
+        render res as JSON
     }
 
 }
