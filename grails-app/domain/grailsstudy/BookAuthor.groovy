@@ -6,7 +6,8 @@ class BookAuthor {
     Book book
     Author author
 
-    static belongsTo = Book
+    // In this project, using  "cascade: all-delete-orphan" may be better than using "belongsTO"
+//    static belongsTo = Book
 
     static constraints = {
 //        author nullable : true

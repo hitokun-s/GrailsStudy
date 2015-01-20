@@ -22,6 +22,9 @@ class Book {
         // [sql1] fetching target Book instance from BOOK table
         // [sql2] fetching related BookAuthor instances from BOOK_AUTHOR table
         authors lazy:false, cascade: "all-delete-orphan"
+        // It seems that "cascade: all-delete-orphan" is necessary to delete BookAuthor automatically when update Book.authors
+        // see also:
+        // http://grails.1312388.n4.nabble.com/Difference-between-belongsTo-and-cascade-quot-all-delete-orphan-quot-td4164742.html
     }
 
 }
