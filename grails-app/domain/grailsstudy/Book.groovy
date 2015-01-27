@@ -6,6 +6,7 @@ class Book {
 
     String title = ""
     Integer price = 0
+    Integer categoryId
 
     @BindingFormat('MM/dd/yyyy\'T\'HH:mm:ss.SSS\'Z\'') //UTC String
     Date publishDate = new Date()
@@ -14,6 +15,10 @@ class Book {
 
     static constraints = {
         price min: 1000
+        categoryId validator: { val, obj ->
+            // check existence
+            !val || Category.findByIdAndActive(val, true)
+        }
     }
 
     static mapping = {

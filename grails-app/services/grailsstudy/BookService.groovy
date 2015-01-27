@@ -2,14 +2,15 @@ package grailsstudy
 
 import grails.transaction.Transactional
 
-@Transactional
+//@Transactional
 class BookService {
 
     // 複数ドメインの保存中にdbエラーが起きた場合のロールバックテスト用
     def saveBoth(Book book, Ebook ebook) {
         if(ebook.validate() && book.validate()){ // validation is not related with database situation
-            ebook.save()
-            book.save() // this must fail , because table was dropped in Bootstrap
+            println "validation passed!"
+            book.save()
+            ebook.save() // this must fail , because EBOOK table was dropped in Bootstrap.groovy
         }
     }
 

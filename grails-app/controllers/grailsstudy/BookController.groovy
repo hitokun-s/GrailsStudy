@@ -1,6 +1,7 @@
 package grailsstudy
 
 import grails.converters.JSON
+import grails.transaction.Transactional
 
 /**
  * Today's Lesson theme :
@@ -28,19 +29,22 @@ class BookController {
 
     // OK, we should comlete all validate() before all saveBoth() '
 
-    // **************************
-    //           exp #2
-    // **************************
-
-    //both of ebook and book will be saved, or, both will not be saved
+    /**
+     * exp #2
+     */
     def riskySave2(){
         def book = new Book()
         bindData(book, request.JSON)
         def ebook = new Ebook()
         bindData(ebook, request.JSON)
+
         if(ebook.validate() && book.validate()){
-            book.save()
-            ebook.save() // this must fail because Ebook table was dropped in Bootstrap
+            try{
+                book.save()
+                ebook.save() // this must fail because Ebook table was dropped in Bootstrap
+            }catch(Exception e){
+                println e
+            }
         }else{
             def errors = [book.errors,ebook.errors]
             render errors as JSON
@@ -60,7 +64,11 @@ class BookController {
         bindData(book, request.JSON)
         def ebook = new Ebook()
         bindData(ebook, request.JSON)
-        bookService.saveBoth(book, ebook) // If saving book failed, everything would be rollbacked
+        try{
+            bookService.saveBoth(book, ebook) // If saving ebook failed, everything would be rollbacked
+        }catch(Exception e ){
+            response.status = 500
+        }
         render true
         // in this project, nothing is saved, because ebook table does not exist
     }
@@ -175,7 +183,26 @@ class BookController {
         }
         bindData(book, request.JSON)
         bookService.save(book)
-        render true
+        if(book.hasErrors()){
+            render book.errors as JSON
+        }else{
+            render true
+        }
+
+    }
+
+    /**
+     * bindDataは、saveもupdateも面倒みてくれるということを実験
+     */
+    def saveOrUpdate(Book book){
+//        def book = bindData(new Book(), request.JSON)
+        if(book){
+            render book as JSON
+        }else{
+            render false
+        }
+
+
     }
 
     def saveAuthor(){
@@ -184,6 +211,10 @@ class BookController {
         author.save()
         def res = [result:true, data:author]
         render res as JSON
+    }
+
+    def findAll(){
+        render Book.findAll() as JSON
     }
 
 }
